@@ -19,6 +19,12 @@ You can trigger events by calling the `trigger` method like this:
 AnalyticsService.shared.trigger('open_app');
 ```
 
+To enable the tracking of user sessions in your app you'll need to pass `true` to the `userJourneyEnabled` parameter of the `setup` function:
+
+```typescript
+AnalyticsService.shared.setup('http://127.0.0.1:8000', info.uuid, true);
+```
+
 ## Ionic Setup (Capacitor)
 
 Add the following imports to your `AppComponent.ts`:
@@ -46,8 +52,44 @@ Device.getInfo().then(info => {
 });
 ```
 
-To enable the tracking of user sessions in your app you'll need to pass `true` to the `userJourneyEnabled` parameter of the `setup` function:
+## React Native Setup
 
-```typescript
-AnalyticsService.shared.setup('http://127.0.0.1:8000', info.uuid, true);
+Add the following imports to your `App.js`:
+
+```javascript
+import { AppState } from 'react-native';
+import * as DeviceInfo from 'react-native-device-info';
+import { AnalyticsService } from 'jw-app-analytics';
+```
+
+Then add the following properties to the state:
+
+```javascript
+state = {
+    appState: AppState.currentState,
+};
+```
+
+Then implement the `componentDidMount` and `componentWillUnmount` as shown below:
+
+```javascript
+componentDidMount() {
+    const appId = DeviceInfo.default.getUniqueID();
+    AnalyticsService.shared.setup('http://127.0.0.1:8000', appId);
+    AnalyticsService.shared.trigger('open_app');
+    AppState.addEventListener('change', this._handleAppStateChange);
+}
+
+componentWillUnmount() {
+    AppState.removeEventListener('change', this._handleAppStateChange);
+}
+
+_handleAppStateChange = (nextAppState) => {
+    if (this.state.appState.match(/inactive|background/) && nextAppState === 'active') {
+        AnalyticsService.shared.willEnterForeground();
+    } else if (this.state.appState.match(/active/) && nextAppState.match(/background/)) {
+        AnalyticsService.shared.didEnterBackground();
+    }
+    this.setState({ appState: nextAppState });
+}
 ```
