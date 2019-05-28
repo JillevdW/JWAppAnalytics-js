@@ -1,4 +1,4 @@
-This package is part of a group that, when installed together, will allow for easy self-hosted mobile app analytics. Without a backend counterpart, this package doesn't do anything.
+This package is part of a group that, when installed together, will allow for easy self-hosted mobile app analytics. Without a [backend counterpart](https://github.com/JillevdW/app-analytics), this package doesn't do anything.
 
 This package can be used with a wide variety of hybrid app frameworks, and this README will highlight how to use this package with each of them.
 
@@ -8,6 +8,15 @@ Install the package with NPM:
 
 ```
 npm i jw-app-analytics
+```
+
+## Basic usage
+
+You can trigger events by calling the `trigger` method like this:
+
+```typescript
+// This triggers an event you should have registered in your backend. It's always nice to register an 'open_app' event.
+AnalyticsService.shared.trigger('open_app');
 ```
 
 ## Ionic Setup (Capacitor)
