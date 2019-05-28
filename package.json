@@ -1,12 +1,16 @@
 {
   "name": "jw-app-analytics",
-  "version": "0.2.0",
+  "version": "0.2.2",
   "description": "Part of a package of plugins that allows for self-hosted app analytics.",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "tsc"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/JillevdW/JWAppAnalytics-js.git"
   },
   "keywords": ["mobile", "app", "analytics", "app analytics", "mobile app analytics"],
   "author": "Jille van der Weerd",
