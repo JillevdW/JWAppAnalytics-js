@@ -1,0 +1,17 @@
+{
+  "name": "jw-app-analytics",
+  "version": "0.2.0",
+  "description": "Part of a package of plugins that allows for self-hosted app analytics.",
+  "main": "lib/index.js",
+  "types": "lib/index.d.ts",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "tsc"
+  },
+  "keywords": ["mobile", "app", "analytics", "app analytics", "mobile app analytics"],
+  "author": "Jille van der Weerd",
+  "license": "MIT",
+  "devDependencies": {
+    "typescript": "^3.4.5"
+  }
+}
