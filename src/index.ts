@@ -10,6 +10,8 @@ export class AnalyticsService {
 
     private userJourney: UserJourney | null = null;
 
+    private sessionProperties = {};
+
     public setup(withUrl: string, uuid: string, userJourneyEnabled: boolean = false): void {
         this.apiUrl = `${withUrl}/app-analytics-api`;
         this.uuid = uuid;
@@ -20,14 +22,15 @@ export class AnalyticsService {
         }
     }
 
-    public trigger(event: string): void {
+    public trigger(event: string, properties: object = {}): void {
         if (!this.apiUrl || !this.uuid) {
             return;
         }
 
         const data = JSON.stringify({
             device_id: this.uuid,
-            metric_name: event
+            metric_name: event,
+            properties
         });
 
         const xhr = new XMLHttpRequest();
@@ -47,6 +50,7 @@ export class AnalyticsService {
         if (this.userJourney) {
             this.userJourney.events = [];
         }
+        this.clearSessionProperties();
         this.trigger('open_app');
     }
 
@@ -56,6 +60,14 @@ export class AnalyticsService {
         }
         this.addToUserJourney('close_app');
         this.send(this.userJourney);
+    }
+
+    public addSessionProperties(properties: object) {
+        this.sessionProperties = {...this.sessionProperties, ...properties};
+    }
+
+    public clearSessionProperties() {
+        this.sessionProperties = {};
     }
 
     private addToUserJourney(event: string): void {
@@ -84,7 +96,8 @@ export class AnalyticsService {
 
         const data = JSON.stringify({
             device_id: userJourney.uuid,
-            events: userJourney.events
+            events: userJourney.events,
+            properties: this.sessionProperties
         });
 
         const xhr = new XMLHttpRequest();

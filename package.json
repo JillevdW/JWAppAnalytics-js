@@ -1,6 +1,6 @@
 {
   "name": "jw-app-analytics",
-  "version": "0.2.2",
+  "version": "0.2.3",
   "description": "Part of a package of plugins that allows for self-hosted app analytics.",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
